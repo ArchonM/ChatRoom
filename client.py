@@ -25,6 +25,7 @@ LEN_PK = 1024
 # Total public transport message size (in bytes)
 DH_MSG_SIZE = LEN_PRIME + LEN_GEN + LEN_PK
 
+__version__ = "0.1"
 
 class Message:
 
@@ -61,7 +62,8 @@ class Message:
         # Add a buffer so that the plaintext is a multiple of 16 characters in length
         pt_len = len(self.plaintext)
         buffer_size = AES.block_size - pt_len % AES.block_size
-        return cipher.encrypt(self.plaintext + " " * buffer_size), iv
+        strmsg = self.plaintext + " " * buffer_size
+        return cipher.encrypt(str.encode(strmsg)), iv
 
     def decrypt(self):
         """
